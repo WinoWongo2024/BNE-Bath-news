@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Pulse News – Stay Informed</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Roboto for readability) -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container">
+            <div class="header-top">
+                <div class="logo">
+                    <a href="#"><img src="images/logo.png" alt="Global Pulse News Logo"> <span>Global Pulse</span></a>
+                </div>
+                <div class="header-actions">
+                    <button id="dark-mode-toggle" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button id="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#" data-category="all">Home</a></li>
+                    <li><a href="#" data-category="politics">Politics</a></li>
+                    <li><a href="#" data-category="technology">Technology</a></li>
+                    <li><a href="#" data-category="business">Business</a></li>
+                    <li><a href="#" data-category="health">Health</a></li>
+                    <li><a href="#" data-category="sports">Sports</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Menu -->
+    <div id="mobile-menu" class="mobile-menu hidden">
+        <ul>
+            <li><a href="#" data-category="all">Home</a></li>
+            <li><a href="#" data-category="politics">Politics</a></li>
+            <li><a href="#" data-category="technology">Technology</a></li>
+            <li><a href="#" data-category="business">Business</a></li>
+            <li><a href="#" data-category="health">Health</a></li>
+            <li><a href="#" data-category="sports">Sports</a></li>
+        </ul>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <span class="category-badge politics">Politics</span>
+                <h1>World Leaders Meet to Discuss Climate Action Targets</h1>
+                <p class="author-date">By Sarah Chen | June 15, 2024</p>
+                <p class="excerpt">Top officials from 50 countries gathered in Geneva this week to negotiate updated emissions reduction goals ahead of next year's global summit...</p>
+                <a href="#" class="read-more-btn">Read Full Story <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="hero-image">
+                <img src="images/hero-story.jpg" alt="World leaders in conference room">
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Tabs -->
+    <section class="category-tabs">
+        <div class="container">
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="all">All News</button>
+                <button class="tab-btn" data-tab="politics">Politics</button>
+                <button class="tab-btn" data-tab="technology">Tech</button>
+                <button class="tab-btn" data-tab="business">Business</button>
+                <button class="tab-btn" data-tab="health">Health</button>
+                <button class="tab-btn" data-tab="sports">Sports</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Stories -->
+    <section class="featured-stories">
+        <div class="container">
+            <h2>Featured Stories</h2>
+            <div class="stories-grid">
+                <!-- Story 1 -->
+                <article class="story-card" data-category="technology">
+                    <img src="images/feature-story-1.jpg" alt="New AI smartphone">
+                    <span class="category-badge technology">Technology</span>
+                    <h3>New AI-Powered Smartphone Promises 2-Day Battery Life</h3>
+                    <p class="author-date">By Mark Torres | June 14, 2024</p>
+                    <p class="excerpt">Tech giant Nexus has unveiled its latest device, featuring a custom AI chip that optimizes power usage based on user behavior...</p>
+                    <a href="#" class="read-more-link">Read More</a>
+                </article>
+
+                <!-- Story 2 -->
+                <article class="story-card" data-category="business">
+                    <img src="images/feature-story-2.jpg" alt="Stock market screen">
+                    <span class="category-badge business">Business</span>
+                    <h3>Global Markets Surge as Trade Barriers Are Lifted</h3>
+                    <p class="author-date">By James Okonkwo | June 13, 2024</p>
+                    <p class="excerpt">Major indices across Asia and Europe climbed 3-5% this week after nations agreed to simplify cross-border trade procedures...</p>
+                    <a href="#" class="read-more-link">Read More</a>
+                </article>
+
+                <!-- Story 3 -->
+                <article class="story-card" data-category="health">
+                    <img src="images/feature-story-3.jpg" alt="Doctor with patient">
+                    <span class="category-badge health">Health</span>
+                    <h3>New Study Links Regular Walking to Reduced Heart Disease Risk</h3>
+                    <p class="author-date">By Dr. Amara Patel | June 12, 2024</p>
+                    <p class="excerpt">Research tracking 10,000 adults over 10 years found that 30 minutes of daily walking cut cardiovascular risk by 22%...</p>
+                    <a href="#" class="read-more-link">Read More</a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest News -->
+    <section class="latest-news">
+        <div class="container">
+            <div class="section-header">
+                <h2>Latest News</h2>
+                <a href="#" class="view-all-btn">View All</a>
+            </div>
+            <div class="latest-grid">
+                <!-- Latest Story 1 -->
+                <article class="latest-story" data-category="sports">
+                    <div class="latest-image">
+                        <img src="images/latest-1.jpg" alt="Soccer match">
+                        <span class="category-badge sports">Sports</span>
+                    </div>
+                    <div class="latest-content">
+                        <h3>National Soccer Team Qualifies for World Cup After Dramatic Win</h3>
+                        <p class="author-date">By Carlos Mendez | June 15, 2024</p>
+                        <p class="excerpt">A last-minute goal secured the team's spot in next year's tournament, ending a 16-year drought...</p>
+                    </div>
+                </article>
+
+                <!-- Latest Story 2 -->
+                <article class="latest-story" data-category="politics">
+                    <div class="latest-image">
+                        <img src="images/latest-2.jpg" alt="Parliament building">
+                        <span class="category-badge politics">Politics</span>
+                    </div>
+                    <div class="latest-content">
+                        <h3>Parliament Passes Landmark Infrastructure Bill</h3>
+                        <p class="author-date">By Emma Watson | June 15, 2024</p>
+                        <p class="excerpt">The $500 billion package will fund new roads, bridges, and high-speed internet access in rural areas...</p>
+                    </div>
+                </article>
+
+                <!-- Latest Story 3 -->
+                <article class="latest-story" data-category="technology">
+                    <div class="latest-image">
+                        <img src="images/latest-3.jpg" alt="Renewable energy plant">
+                        <span class="category-badge technology">Technology</span>
+                    </div>
+                    <div class="latest-content">
+                        <h3>New Solar Panel Design Doubles Energy Output</h3>
+                        <p class="author-date">By Lisa Zhang | June 14, 2024</p>
+                        <p class="excerpt">Scientists at MIT have developed a new coating that allows panels to capture more sunlight even on cloudy days...</p>
+                    </div>
+                </article>
+
+                <!-- Latest Story 4 -->
+                <article class="latest-story" data-category="business">
+                    <div class="latest-image">
+                        <img src="images/latest-4.jpg" alt="E-commerce warehouse">
+                        <span class="category-badge business">Business</span>
+                    </div>
+                    <div class="latest-content">
+                        <h3>E-Commerce Giant Expands Same-Day Delivery to 50 More Cities</h3>
+                        <p class="author-date">By David Kim | June 14, 2024</p>
+                        <p class="excerpt">The company is investing $2 billion in new fulfillment centers to meet growing demand for fast shipping...</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter-section">
+        <div class="container">
+            <div class="newsletter-content">
+                <h2>Stay Updated with Our Newsletter</h2>
+                <p>Get the top stories delivered straight to your inbox every morning.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Enter your email address" required>
+                    <button type="submit">Subscribe <i class="fas fa-paper-plane"></i></button>
+                </form>
+                <p class="privacy-note">We respect your privacy – unsubscribe at any time.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-logo">
+                    <a href="#"><img src="images/logo.png" alt="Global Pulse News Logo"> <span>Global Pulse</span></a>
+                    <p>Bringing you accurate, unbiased news since 2020.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Advertise</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Follow Us</h4>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Global Pulse News. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
