@@ -1,240 +1,576 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Pulse News – Stay Informed</title>
-    <link rel="stylesheet" href="styles.css">
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts (Roboto for readability) -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <title>BNE - Bath & Bristol | Local News for the South West</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --bne-blue: #0F4C81;
+            --bne-red: #C8102E;
+            --bne-light-grey: #F5F5F5;
+            --bne-dark-grey: #333333;
+            --bne-white: #FFFFFF;
+        }
+
+        body {
+            line-height: 1.6;
+            color: var(--bne-dark-grey);
+        }
+
+        /* Header & Navigation */
+        .site-header {
+            background-color: var(--bne-blue);
+            color: var(--bne-white);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .site-logo {
+            font-size: 2rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .site-logo span {
+            color: var(--bne-red);
+        }
+
+        .main-nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .main-nav a {
+            color: var(--bne-white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav a:hover {
+            color: var(--bne-red);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--bne-white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Breaking News Banner */
+        .breaking-news {
+            background-color: var(--bne-red);
+            color: var(--bne-white);
+            padding: 0.75rem 1.5rem;
+            overflow: hidden;
+        }
+
+        .breaking-content {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            animation: scrollNews 25s linear infinite;
+        }
+
+        .breaking-label {
+            font-weight: bold;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        @keyframes scrollNews {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Main Content Container */
+        .content-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Featured Story Section */
+        .featured-story {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            background-color: var(--bne-light-grey);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .featured-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .featured-text {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .category-tag {
+            display: inline-block;
+            background-color: var(--bne-blue);
+            color: var(--bne-white);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            text-decoration: none;
+        }
+
+        .category-tag.politics { background-color: var(--bne-red); }
+        .category-tag.sport { background-color: #228B22; }
+        .category-tag.culture { background-color: #FF6B6B; }
+        .category-tag.business { background-color: #FFD700; color: var(--bne-dark-grey); }
+
+        .featured-text h1 {
+            font-size: 2.5rem;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .featured-text p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+
+        .read-more {
+            display: inline-block;
+            color: var(--bne-blue);
+            font-weight: bold;
+            text-decoration: none;
+            border-bottom: 2px solid var(--bne-blue);
+            width: fit-content;
+            transition: all 0.3s ease;
+        }
+
+        .read-more:hover {
+            color: var(--bne-red);
+            border-color: var(--bne-red);
+        }
+
+        /* News Categories Grid */
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--bne-blue);
+            width: fit-content;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .news-card {
+            background-color: var(--bne-white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-text {
+            padding: 1.5rem;
+        }
+
+        .card-text h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-text .date {
+            font-size: 0.8rem;
+            color: #777;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Photo Gallery Section */
+        .gallery-section {
+            background-color: var(--bne-light-grey);
+            padding: 2rem 0;
+            margin-bottom: 3rem;
+            border-radius: 8px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            padding: 0 1.5rem;
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 4px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .gallery-image:hover {
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        .site-footer {
+            background-color: var(--bne-dark-grey);
+            color: var(--bne-white);
+            padding: 3rem 0;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--bne-red);
+        }
+
+        .footer-section p, .footer-section ul {
+            color: #ccc;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--bne-red);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            font-size: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid #555;
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 992px) {
+            .featured-story {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-image {
+                height: 300px;
+            }
+
+            .featured-text h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .main-nav {
+                width: 100%;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+                margin-top: 1rem;
+            }
+
+            .main-nav.active {
+                max-height: 300px;
+            }
+
+            .main-nav ul {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem 0;
+            }
+
+            .breaking-content {
+                animation: none;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Header -->
+    <!-- Site Header -->
     <header class="site-header">
-        <div class="container">
-            <div class="header-top">
-                <div class="logo">
-                    <a href="#"><img src="images/logo.png" alt="Global Pulse News Logo"> <span>Global Pulse</span></a>
-                </div>
-                <div class="header-actions">
-                    <button id="dark-mode-toggle" aria-label="Toggle dark mode">
-                        <i class="fas fa-moon"></i>
-                    </button>
-                    <button id="mobile-menu-toggle" aria-label="Toggle mobile menu">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Navigation -->
-            <nav class="main-nav">
+        <div class="header-container">
+            <div class="site-logo">BNE <span>-</span> Bath & Bristol</div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+            <nav class="main-nav" id="mainNav">
                 <ul>
-                    <li><a href="#" data-category="all">Home</a></li>
-                    <li><a href="#" data-category="politics">Politics</a></li>
-                    <li><a href="#" data-category="technology">Technology</a></li>
-                    <li><a href="#" data-category="business">Business</a></li>
-                    <li><a href="#" data-category="health">Health</a></li>
-                    <li><a href="#" data-category="sports">Sports</a></li>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#news">News</a></li>
+                    <li><a href="#sport">Sport</a></li>
+                    <li><a href="#culture">Culture</a></li>
+                    <li><a href="#business">Business</a></li>
+                    <li><a href="#about">About Us</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <!-- Mobile Navigation Menu -->
-    <div id="mobile-menu" class="mobile-menu hidden">
-        <ul>
-            <li><a href="#" data-category="all">Home</a></li>
-            <li><a href="#" data-category="politics">Politics</a></li>
-            <li><a href="#" data-category="technology">Technology</a></li>
-            <li><a href="#" data-category="business">Business</a></li>
-            <li><a href="#" data-category="health">Health</a></li>
-            <li><a href="#" data-category="sports">Sports</a></li>
-        </ul>
+    <!-- Breaking News Banner -->
+    <div class="breaking-news">
+        <div class="breaking-content">
+            <div class="breaking-label">Breaking News</div>
+            <p>Bath city centre road closure extended by two weeks for essential bridge repairs – diversions in place from Monday</p>
+        </div>
     </div>
 
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="container">
-            <div class="hero-content">
-                <span class="category-badge politics">Politics</span>
-                <h1>World Leaders Meet to Discuss Climate Action Targets</h1>
-                <p class="author-date">By Sarah Chen | June 15, 2024</p>
-                <p class="excerpt">Top officials from 50 countries gathered in Geneva this week to negotiate updated emissions reduction goals ahead of next year's global summit...</p>
-                <a href="#" class="read-more-btn">Read Full Story <i class="fas fa-arrow-right"></i></a>
+    <!-- Main Content -->
+    <main class="content-container" id="home">
+        <!-- Featured Story -->
+        <section class="featured-story">
+            <img src="https://images.unsplash.com/photo-1583328558452-023c19d82848?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" 
+                 alt="Bristol Suspension Bridge at sunset" 
+                 class="featured-image">
+            <div class="featured-text">
+                <a href="#news" class="category-tag politics">Politics</a>
+                <h1>Bristol & Bath Leaders Unite to Push for New South West Rail Link</h1>
+                <p>Local authorities from both cities have announced a joint campaign to secure government funding for a high-speed rail connection, aiming to cut journey times by 40% and boost regional economic growth.</p>
+                <a href="#" class="read-more">Read Full Story →</a>
             </div>
-            <div class="hero-image">
-                <img src="images/hero-story.jpg" alt="World leaders in conference room">
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Category Tabs -->
-    <section class="category-tabs">
-        <div class="container">
-            <div class="tabs">
-                <button class="tab-btn active" data-tab="all">All News</button>
-                <button class="tab-btn" data-tab="politics">Politics</button>
-                <button class="tab-btn" data-tab="technology">Tech</button>
-                <button class="tab-btn" data-tab="business">Business</button>
-                <button class="tab-btn" data-tab="health">Health</button>
-                <button class="tab-btn" data-tab="sports">Sports</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Featured Stories -->
-    <section class="featured-stories">
-        <div class="container">
-            <h2>Featured Stories</h2>
-            <div class="stories-grid">
-                <!-- Story 1 -->
-                <article class="story-card" data-category="technology">
-                    <img src="images/feature-story-1.jpg" alt="New AI smartphone">
-                    <span class="category-badge technology">Technology</span>
-                    <h3>New AI-Powered Smartphone Promises 2-Day Battery Life</h3>
-                    <p class="author-date">By Mark Torres | June 14, 2024</p>
-                    <p class="excerpt">Tech giant Nexus has unveiled its latest device, featuring a custom AI chip that optimizes power usage based on user behavior...</p>
-                    <a href="#" class="read-more-link">Read More</a>
-                </article>
-
-                <!-- Story 2 -->
-                <article class="story-card" data-category="business">
-                    <img src="images/feature-story-2.jpg" alt="Stock market screen">
-                    <span class="category-badge business">Business</span>
-                    <h3>Global Markets Surge as Trade Barriers Are Lifted</h3>
-                    <p class="author-date">By James Okonkwo | June 13, 2024</p>
-                    <p class="excerpt">Major indices across Asia and Europe climbed 3-5% this week after nations agreed to simplify cross-border trade procedures...</p>
-                    <a href="#" class="read-more-link">Read More</a>
-                </article>
-
-                <!-- Story 3 -->
-                <article class="story-card" data-category="health">
-                    <img src="images/feature-story-3.jpg" alt="Doctor with patient">
-                    <span class="category-badge health">Health</span>
-                    <h3>New Study Links Regular Walking to Reduced Heart Disease Risk</h3>
-                    <p class="author-date">By Dr. Amara Patel | June 12, 2024</p>
-                    <p class="excerpt">Research tracking 10,000 adults over 10 years found that 30 minutes of daily walking cut cardiovascular risk by 22%...</p>
-                    <a href="#" class="read-more-link">Read More</a>
-                </article>
-            </div>
-        </div>
-    </section>
-
-    <!-- Latest News -->
-    <section class="latest-news">
-        <div class="container">
-            <div class="section-header">
-                <h2>Latest News</h2>
-                <a href="#" class="view-all-btn">View All</a>
-            </div>
-            <div class="latest-grid">
-                <!-- Latest Story 1 -->
-                <article class="latest-story" data-category="sports">
-                    <div class="latest-image">
-                        <img src="images/latest-1.jpg" alt="Soccer match">
-                        <span class="category-badge sports">Sports</span>
-                    </div>
-                    <div class="latest-content">
-                        <h3>National Soccer Team Qualifies for World Cup After Dramatic Win</h3>
-                        <p class="author-date">By Carlos Mendez | June 15, 2024</p>
-                        <p class="excerpt">A last-minute goal secured the team's spot in next year's tournament, ending a 16-year drought...</p>
+        <!-- Latest News Section -->
+        <section id="news">
+            <h2 class="section-title">Latest News</h2>
+            <div class="news-grid">
+                <article class="news-card">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" 
+                         alt="New housing development in Bath" 
+                         class="card-image">
+                    <div class="card-text">
+                        <a href="#news" class="category-tag">Local</a>
+                        <h3>Plans Approved for 200 New Homes on Former Bath Industrial Site</h3>
+                        <p class="date">Published: 12th October 2024</p>
+                        <p>Development will include 30% affordable housing and new public green space...</p>
+                        <a href="#" class="read-more">Read More →</a>
                     </div>
                 </article>
 
-                <!-- Latest Story 2 -->
-                <article class="latest-story" data-category="politics">
-                    <div class="latest-image">
-                        <img src="images/latest-2.jpg" alt="Parliament building">
-                        <span class="category-badge politics">Politics</span>
-                    </div>
-                    <div class="latest-content">
-                        <h3>Parliament Passes Landmark Infrastructure Bill</h3>
-                        <p class="author-date">By Emma Watson | June 15, 2024</p>
-                        <p class="excerpt">The $500 billion package will fund new roads, bridges, and high-speed internet access in rural areas...</p>
-                    </div>
-                </article>
-
-                <!-- Latest Story 3 -->
-                <article class="latest-story" data-category="technology">
-                    <div class="latest-image">
-                        <img src="images/latest-3.jpg" alt="Renewable energy plant">
-                        <span class="category-badge technology">Technology</span>
-                    </div>
-                    <div class="latest-content">
-                        <h3>New Solar Panel Design Doubles Energy Output</h3>
-                        <p class="author-date">By Lisa Zhang | June 14, 2024</p>
-                        <p class="excerpt">Scientists at MIT have developed a new coating that allows panels to capture more sunlight even on cloudy days...</p>
+                <article class="news-card">
+                    <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" 
+                         alt="Bristol harbour festival" 
+                         class="card-image">
+                    <div class="card-text">
+                        <a href="#culture" class="category-tag culture">Culture</a>
+                        <h3>Bristol Harbour Festival Returns This Summer with Record Line-Up</h3>
+                        <p class="date">Published: 11th October 2024</p>
+                        <p>Free event will feature music, theatre, and water sports across three days...</p>
+                        <a href="#" class="read-more">Read More →</a>
                     </div>
                 </article>
 
-                <!-- Latest Story 4 -->
-                <article class="latest-story" data-category="business">
-                    <div class="latest-image">
-                        <img src="images/latest-4.jpg" alt="E-commerce warehouse">
-                        <span class="category-badge business">Business</span>
-                    </div>
-                    <div class="latest-content">
-                        <h3>E-Commerce Giant Expands Same-Day Delivery to 50 More Cities</h3>
-                        <p class="author-date">By David Kim | June 14, 2024</p>
-                        <p class="excerpt">The company is investing $2 billion in new fulfillment centers to meet growing demand for fast shipping...</p>
+                <article class="news-card">
+                    <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" 
+                         alt="Hospital entrance" 
+                         class="card-image">
+                    <div class="card-text">
+                        <a href="#news" class="category-tag">Health</a>
+                        <h3>New Emergency Department Opens at Bath Royal United Hospital</h3>
+                        <p class="date">Published: 10th October 2024</p>
+                        <p>Facility designed to reduce waiting times by up to 25% for urgent care patients...</p>
+                        <a href="#" class="read-more">Read More →</a>
                     </div>
                 </article>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Newsletter Section -->
-    <section class="newsletter-section">
-        <div class="container">
-            <div class="newsletter-content">
-                <h2>Stay Updated with Our Newsletter</h2>
-                <p>Get the top stories delivered straight to your inbox every morning.</p>
-                <form class="newsletter-form">
-                    <input type="email" placeholder="Enter your email address" required>
-                    <button type="submit">Subscribe <i class="fas fa-paper-plane"></i></button>
-                </form>
-                <p class="privacy-note">We respect your privacy – unsubscribe at any time.</p>
+        <!-- Sport Section -->
+        <section id="sport">
+            <h2 class="section-title">Sport</h2>
+            <div class="news-grid">
+                <article class="news-card">
+                    <img src="https://images.unsplash.com/photo-1542281286-9e0a16bb7366?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" 
+                         alt="Rugby match action" 
+                         class="card-image">
+                    <div class="card-text">
+                        <a href="#sport" class="category-tag sport">Rugby</a>
+                        <h3>Bath Rugby Secure Dramatic Late Win Against Bristol Bears</h3>
+                        <p class="date">Published: 12th October 2024</p>
+                        <p>Last-minute penalty kick seals derby victory at the Recreation Ground...</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </article>
+
+                <article class="news-card">
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" 
+                         alt="Football stadium crowd" 
+                         class="card-image">
+                    <div class="card-text">
+                        <a href="#sport" class="category-tag sport">Football</a>
+                        <h3>Bristol City Announce New Youth Development Partnership</h3>
+                        <p class="date">Published: 11th October 2024</p>
+                        <p>Club to work with local schools to identify and nurture young talent...</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </article>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Footer -->
-    <footer class="site-footer">
-        <div class="container">
-            <div class="footer-top">
-                <div class="footer-logo">
-                    <a href="#"><img src="images/logo.png" alt="Global Pulse News Logo"> <span>Global Pulse</span></a>
-                    <p>Bringing you accurate, unbiased news since 2020.</p>
+        <!-- Photo Gallery -->
+        <section class="gallery-section">
+            <h2 class="section-title" style="margin-left: 1.5rem;">Local Photo Gallery</h2>
+            <div class="gallery-grid">
+                <img src="https://images.unsplash.com/photo-1583328661522-0347a4120116?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                     alt="Bath Abbey" 
+                     class="gallery-image">
+                <img src="https://images.unsplash.com/photo-1549407247-720364715878?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                     alt="Bristol Street Art" 
+                     class="gallery-image">
+                <img src="https://images.unsplash.com/photo-1583328661525-062e29bc9a00?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                     alt="Avon Gorge" 
+                     class="gallery-image">
+                <img src="https://images.unsplash.com/photo-1583328661524-070188c69615?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                     alt="Bath Georgian Architecture" 
+                     class="gallery-image">
+                <img src="https://images.unsplash.com/photo-1583328661526-0a59b108a0d2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                     alt="Bristol Harbourside" 
+                     class="gallery-image">
+                <img src="https://images.unsplash.com/photo-1583328661523-06d0e990509e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                     alt="Prior Park Landscape Garden" 
+                     class="gallery-image">
+            </div>
+        </section>
+    </main>
+
+    <!-- Site Footer -->
+    <footer class="site-footer" id="about">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About BNE</h3>
+                <p>Bringing you trusted local news, sport, and culture from Bath and Bristol since 2024. Our mission is to connect communities and keep people informed about what matters most in the South West.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#news">Latest News</a></li>
+                    <li><a href="#sport">Sport</a></li>
+                    <li><a href="#culture">Culture</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Advertise With Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <p>Follow BNE for updates across social media:</p>
+                <div class="social-links">
+                    <a href="#">📱</a>
+                    <a href="#">𝕏</a>
+                    <a href="#">📘</a>
+                    <a href="#">📸</a>
                 </div>
-                <div class="footer-links">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Advertise</a></li>
-                    </ul>
-                </div>
-                <div class="footer-social">
-                    <h4>Follow Us</h4>
-                    <div class="social-icons">
-                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
+                <p style="margin-top: 1rem;">Email: info@bnebathbristol.co.uk</p>
+                <p>Phone: 01225 123456</p>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 Global Pulse News. All rights reserved.</p>
-            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 BNE - Bath & Bristol. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a></p>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- JavaScript for Mobile Menu -->
+    <script>
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mainNav = document.getElementById('mainNav');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mainNav.classList.toggle('active');
+            mobileMenuBtn.textContent = mainNav.classList.contains('active') ? '✕' : '☰';
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                document.querySelector(targetId).scrollIntoView({
+                    behavior: 'smooth'
+                });
+
+                // Close mobile menu if open
+                if(mainNav.classList.contains('active')) {
+                    mainNav.classList.remove('active');
+                    mobileMenuBtn.textContent = '☰';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
