@@ -4,573 +4,939 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BNE - Bath & Bristol | Local News for the South West</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
+        /* Base Reset & Variables */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
         }
 
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
         :root {
-            --bne-blue: #0F4C81;
-            --bne-red: #C8102E;
-            --bne-light-grey: #F5F5F5;
-            --bne-dark-grey: #333333;
-            --bne-white: #FFFFFF;
+            --bne-primary: #0A3D62;
+            --bne-accent: #E64A19;
+            --bne-neutral-100: #F8FAFC;
+            --bne-neutral-200: #E2E8F0;
+            --bne-neutral-700: #334155;
+            --bne-neutral-900: #1A202C;
+            --bne-gradient: linear-gradient(135deg, #0A3D62 0%, #1E293B 100%);
+            --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         body {
-            line-height: 1.6;
-            color: var(--bne-dark-grey);
+            background-color: var(--bne-neutral-100);
+            color: var(--bne-neutral-900);
+            line-height: 1.7;
+            scroll-behavior: smooth;
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-gap {
+            margin: 6rem 0;
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: var(--transition-base);
+        }
+
+        .animate-on-scroll.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition-base);
+        }
+
+        .btn-primary {
+            background-color: var(--bne-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #08314E;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(10, 61, 98, 0.4);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--bne-primary);
+            color: var(--bne-primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--bne-primary);
+            color: white;
         }
 
         /* Header & Navigation */
         .site-header {
-            background-color: var(--bne-blue);
-            color: var(--bne-white);
-            padding: 1rem 0;
-            position: sticky;
+            position: fixed;
             top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            left: 0;
+            width: 100%;
+            background-color: transparent;
+            z-index: 1000;
+            transition: var(--transition-base);
         }
 
-        .header-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
+        .site-header.scrolled {
+            background-color: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
+            padding: 1.5rem 0;
         }
 
         .site-logo {
-            font-size: 2rem;
-            font-weight: bold;
-            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+
+        .site-header.scrolled .site-logo {
+            color: var(--bne-primary);
         }
 
         .site-logo span {
-            color: var(--bne-red);
+            color: var(--bne-accent);
         }
 
-        .main-nav ul {
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+        }
+
+        .nav-links {
             display: flex;
             list-style: none;
             gap: 2rem;
         }
 
-        .main-nav a {
-            color: var(--bne-white);
+        .nav-links a {
+            color: white;
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s ease;
+            position: relative;
+            transition: var(--transition-fast);
         }
 
-        .main-nav a:hover {
-            color: var(--bne-red);
+        .site-header.scrolled .nav-links a {
+            color: var(--bne-neutral-700);
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--bne-accent);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--bne-accent);
+            transition: var(--transition-base);
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .search-btn, .mobile-menu-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .site-header.scrolled .search-btn,
+        .site-header.scrolled .mobile-menu-btn {
+            color: var(--bne-primary);
         }
 
         .mobile-menu-btn {
             display: none;
-            background: none;
-            border: none;
-            color: var(--bne-white);
-            font-size: 1.5rem;
-            cursor: pointer;
         }
 
-        /* Breaking News Banner */
-        .breaking-news {
-            background-color: var(--bne-red);
-            color: var(--bne-white);
-            padding: 0.75rem 1.5rem;
+        /* Hero Section */
+        .hero-section {
+            height: 90vh;
+            background: var(--bne-gradient);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            color: white;
+            padding-top: 8rem;
             overflow: hidden;
+            position: relative;
         }
 
-        .breaking-content {
+        .hero-bg-pattern {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1583328558452-023c19d82848?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80&blur=20');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.2;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-category {
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+        }
+
+        .hero-excerpt {
+            font-size: 1.25rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 500px;
+        }
+
+        .hero-image {
+            position: relative;
+            z-index: 1;
+            height: 100%;
             display: flex;
             align-items: center;
-            gap: 1.5rem;
-            animation: scrollNews 25s linear infinite;
-        }
-
-        .breaking-label {
-            font-weight: bold;
-            text-transform: uppercase;
-            white-space: nowrap;
-        }
-
-        @keyframes scrollNews {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-
-        /* Main Content Container */
-        .content-container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
-        }
-
-        /* Featured Story Section */
-        .featured-story {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 2rem;
-            margin-bottom: 3rem;
-            background-color: var(--bne-light-grey);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .featured-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .featured-text {
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
             justify-content: center;
         }
 
-        .category-tag {
-            display: inline-block;
-            background-color: var(--bne-blue);
-            color: var(--bne-white);
-            padding: 0.25rem 0.75rem;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-            text-decoration: none;
+        .hero-image img {
+            width: 90%;
+            height: auto;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            transform: rotate(2deg);
+            object-fit: cover;
         }
 
-        .category-tag.politics { background-color: var(--bne-red); }
-        .category-tag.sport { background-color: #228B22; }
-        .category-tag.culture { background-color: #FF6B6B; }
-        .category-tag.business { background-color: #FFD700; color: var(--bne-dark-grey); }
-
-        .featured-text h1 {
-            font-size: 2.5rem;
-            line-height: 1.2;
-            margin-bottom: 1rem;
-        }
-
-        .featured-text p {
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-            color: #555;
-        }
-
-        .read-more {
-            display: inline-block;
-            color: var(--bne-blue);
-            font-weight: bold;
-            text-decoration: none;
-            border-bottom: 2px solid var(--bne-blue);
-            width: fit-content;
-            transition: all 0.3s ease;
-        }
-
-        .read-more:hover {
-            color: var(--bne-red);
-            border-color: var(--bne-red);
-        }
-
-        /* News Categories Grid */
-        .section-title {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 3px solid var(--bne-blue);
-            width: fit-content;
-        }
-
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .news-card {
-            background-color: var(--bne-white);
-            border-radius: 8px;
+        /* Breaking News */
+        .breaking-news {
+            background-color: var(--bne-accent);
+            color: white;
+            padding: 1rem 0;
+            position: relative;
             overflow: hidden;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
         }
 
-        .news-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card-image {
+        .breaking-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
             width: 100%;
-            height: 200px;
-            object-fit: cover;
         }
 
-        .card-text {
-            padding: 1.5rem;
+        .breaking-label {
+            font-weight: 700;
+            text-transform: uppercase;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
-        .card-text h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.75rem;
+        .breaking-slider {
+            display: flex;
+            gap: 2rem;
+            animation: slideBreaking 30s linear infinite;
         }
 
-        .card-text .date {
-            font-size: 0.8rem;
-            color: #777;
-            margin-bottom: 0.75rem;
+        .breaking-item {
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
-        /* Photo Gallery Section */
-        .gallery-section {
-            background-color: var(--bne-light-grey);
-            padding: 2rem 0;
-            margin-bottom: 3rem;
-            border-radius: 8px;
+        @keyframes slideBreaking {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
         }
 
-        .gallery-grid {
+        /* Featured Stories Grid */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--bne-primary);
+            position: relative;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background-color: var(--bne-accent);
+            border-radius: 3px;
+        }
+
+        .featured-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            padding: 0 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
         }
 
-        .gallery-image {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 4px;
-            transition: transform 0.3s ease;
+        .story-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            transition: var(--transition-base);
             cursor: pointer;
         }
 
-        .gallery-image:hover {
+        .story-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-media {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+        }
+
+        .card-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-base);
+        }
+
+        .story-card:hover .card-media img {
             transform: scale(1.05);
+        }
+
+        .card-category {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background-color: var(--bne-primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .card-category.sport { background-color: #2ECC71; }
+        .card-category.culture { background-color: #9B59B6; }
+        .card-category.business { background-color: #F1C40F; color: var(--bne-neutral-900); }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: var(--bne-neutral-700);
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .card-excerpt {
+            color: var(--bne-neutral-700);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .card-read-more {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--bne-primary);
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+
+        .card-read-more:hover {
+            color: var(--bne-accent);
+        }
+
+        /* Category Tabs */
+        .category-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+        }
+
+        .tab-btn {
+            background-color: var(--bne-neutral-200);
+            color: var(--bne-neutral-700);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-base);
+            white-space: nowrap;
+        }
+
+        .tab-btn.active, .tab-btn:hover {
+            background-color: var(--bne-primary);
+            color: white;
+        }
+
+        /* Newsletter Section */
+        .newsletter-section {
+            background: var(--bne-gradient);
+            color: white;
+            padding: 4rem 0;
+            border-radius: 24px;
+            margin: 6rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .newsletter-bg {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80&blur=10');
+            background-size: cover;
+            opacity: 0.1;
+        }
+
+        .newsletter-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .newsletter-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .newsletter-text {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            font-size: 1rem;
+            outline: none;
         }
 
         /* Footer */
         .site-footer {
-            background-color: var(--bne-dark-grey);
-            color: var(--bne-white);
-            padding: 3rem 0;
+            background-color: var(--bne-neutral-900);
+            color: white;
+            padding: 6rem 0 2rem;
         }
 
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
+        .footer-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
+            gap: 3rem;
+            margin-bottom: 4rem;
         }
 
-        .footer-section h3 {
-            font-size: 1.2rem;
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 800;
             margin-bottom: 1rem;
-            color: var(--bne-red);
         }
 
-        .footer-section p, .footer-section ul {
-            color: #ccc;
+        .footer-logo span {
+            color: var(--bne-accent);
         }
 
-        .footer-section ul {
-            list-style: none;
-        }
-
-        .footer-section a {
-            color: #ccc;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-section a:hover {
-            color: var(--bne-red);
+        .footer-text {
+            color: var(--bne-neutral-200);
+            margin-bottom: 1.5rem;
         }
 
         .social-links {
             display: flex;
             gap: 1rem;
-            font-size: 1.5rem;
-            margin-top: 1rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition-base);
+        }
+
+        .social-link:hover {
+            background-color: var(--bne-accent);
+            transform: translateY(-3px);
+        }
+
+        .footer-heading {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .footer-links a {
+            color: var(--bne-neutral-200);
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+
+        .footer-links a:hover {
+            color: var(--bne-accent);
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .copyright {
-            text-align: center;
-            padding-top: 2rem;
-            margin-top: 2rem;
-            border-top: 1px solid #555;
-            color: #ccc;
-            font-size: 0.9rem;
+            color: var(--bne-neutral-200);
+        }
+
+        .legal-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .legal-links a {
+            color: var(--bne-neutral-200);
+            text-decoration: none;
+            font-size: 0.875rem;
         }
 
         /* Mobile Responsiveness */
-        @media (max-width: 992px) {
-            .featured-story {
+        @media (max-width: 1024px) {
+            .hero-section {
                 grid-template-columns: 1fr;
+                height: auto;
+                padding: 8rem 0 4rem;
+                text-align: center;
             }
 
-            .featured-image {
-                height: 300px;
+            .hero-title {
+                font-size: 2.5rem;
             }
 
-            .featured-text h1 {
-                font-size: 2rem;
+            .hero-excerpt {
+                max-width: 100%;
+            }
+
+            .hero-image {
+                margin-top: 3rem;
+            }
+
+            .hero-image img {
+                transform: rotate(0);
+                width: 100%;
+            }
+
+            .newsletter-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+                max-width: 400px;
+                margin: 0 auto;
             }
         }
 
         @media (max-width: 768px) {
-            .mobile-menu-btn {
-                display: block;
-            }
-
             .main-nav {
-                width: 100%;
-                max-height: 0;
-                overflow: hidden;
-                transition: max-height 0.3s ease;
-                margin-top: 1rem;
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 300px;
+                height: 100vh;
+                background-color: white;
+                flex-direction: column;
+                justify-content: center;
+                gap: 3rem;
+                padding: 2rem;
+                box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+                transform: translateX(100%);
+                transition: var(--transition-base);
+                z-index: 999;
             }
 
             .main-nav.active {
-                max-height: 300px;
+                transform: translateX(0);
             }
 
-            .main-nav ul {
+            .nav-links {
                 flex-direction: column;
-                gap: 1rem;
-                padding: 1rem 0;
+                gap: 1.5rem;
+                text-align: center;
             }
 
-            .breaking-content {
-                animation: none;
-                flex-wrap: wrap;
-                gap: 0.5rem;
+            .nav-links a {
+                color: var(--bne-neutral-900);
+                font-size: 1.1rem;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+                z-index: 1001;
+            }
+
+            .site-header.scrolled .mobile-menu-btn {
+                color: var(--bne-primary);
+            }
+
+            .nav-actions {
+                justify-content: center;
+            }
+
+            .search-btn {
+                color: var(--bne-primary);
+            }
+
+            .featured-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                justify-content: center;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Site Header -->
-    <header class="site-header">
-        <div class="header-container">
-            <div class="site-logo">BNE <span>-</span> Bath & Bristol</div>
-            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
-            <nav class="main-nav" id="mainNav">
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#news">News</a></li>
-                    <li><a href="#sport">Sport</a></li>
-                    <li><a href="#culture">Culture</a></li>
-                    <li><a href="#business">Business</a></li>
-                    <li><a href="#about">About Us</a></li>
-                </ul>
-            </nav>
+    <!-- Header -->
+    <header class="site-header" id="siteHeader">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="site-logo">
+                    <i class="fas fa-newspaper"></i>
+                    BNE <span>-</span> Bath & Bristol
+                </a>
+                
+                <nav class="main-nav" id="mainNav">
+                    <ul class="nav-links">
+                        <li><a href="#" class="active">Home</a></li>
+                        <li><a href="#news">News</a></li>
+                        <li><a href="#sport">Sport</a></li>
+                        <li><a href="#culture">Culture</a></li>
+                        <li><a href="#business">Business</a></li>
+                        <li><a href="#about">About</a></li>
+                    </ul>
+                    <div class="nav-actions">
+                        <button class="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </nav>
+                
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
         </div>
     </header>
 
-    <!-- Breaking News Banner -->
-    <div class="breaking-news">
-        <div class="breaking-content">
-            <div class="breaking-label">Breaking News</div>
-            <p>Bath city centre road closure extended by two weeks for essential bridge repairs – diversions in place from Monday</p>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-bg-pattern"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-category">Politics & Infrastructure</div>
+                <h1 class="hero-title">Bristol & Bath Leaders Unite for New Rail Link</h1>
+                <p class="hero-excerpt">Local authorities launch joint campaign to secure £2.5bn funding for a high-speed connection that could transform regional travel.</p>
+                <a href="single-story.html" class="btn btn-primary">
+                    Read Full Story
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1583328558452-023c19d82848?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                     alt="Concept art of new South West rail link">
+            </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Main Content -->
-    <main class="content-container" id="home">
-        <!-- Featured Story -->
-        <section class="featured-story">
-            <img src="https://images.unsplash.com/photo-1583328558452-023c19d82848?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" 
-                 alt="Bristol Suspension Bridge at sunset" 
-                 class="featured-image">
-            <div class="featured-text">
-                <a href="#news" class="category-tag politics">Politics</a>
-                <h1>Bristol & Bath Leaders Unite to Push for New South West Rail Link</h1>
-                <p>Local authorities from both cities have announced a joint campaign to secure government funding for a high-speed rail connection, aiming to cut journey times by 40% and boost regional economic growth.</p>
-                <a href="#" class="read-more">Read Full Story →</a>
+    <!-- Breaking News -->
+    <section class="breaking-news">
+        <div class="container breaking-wrapper">
+            <div class="breaking-label">
+                <i class="fas fa-exclamation-circle"></i> Breaking
             </div>
-        </section>
-
-        <!-- Latest News Section -->
-        <section id="news">
-            <h2 class="section-title">Latest News</h2>
-            <div class="news-grid">
-                <article class="news-card">
-                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" 
-                         alt="New housing development in Bath" 
-                         class="card-image">
-                    <div class="card-text">
-                        <a href="#news" class="category-tag">Local</a>
-                        <h3>Plans Approved for 200 New Homes on Former Bath Industrial Site</h3>
-                        <p class="date">Published: 12th October 2024</p>
-                        <p>Development will include 30% affordable housing and new public green space...</p>
-                        <a href="#" class="read-more">Read More →</a>
-                    </div>
-                </article>
-
-                <article class="news-card">
-                    <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" 
-                         alt="Bristol harbour festival" 
-                         class="card-image">
-                    <div class="card-text">
-                        <a href="#culture" class="category-tag culture">Culture</a>
-                        <h3>Bristol Harbour Festival Returns This Summer with Record Line-Up</h3>
-                        <p class="date">Published: 11th October 2024</p>
-                        <p>Free event will feature music, theatre, and water sports across three days...</p>
-                        <a href="#" class="read-more">Read More →</a>
-                    </div>
-                </article>
-
-                <article class="news-card">
-                    <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" 
-                         alt="Hospital entrance" 
-                         class="card-image">
-                    <div class="card-text">
-                        <a href="#news" class="category-tag">Health</a>
-                        <h3>New Emergency Department Opens at Bath Royal United Hospital</h3>
-                        <p class="date">Published: 10th October 2024</p>
-                        <p>Facility designed to reduce waiting times by up to 25% for urgent care patients...</p>
-                        <a href="#" class="read-more">Read More →</a>
-                    </div>
-                </article>
+            <div class="breaking-slider">
+                <div class="breaking-item">Bath road closure extended by two weeks for bridge repairs – diversions in place from Monday</div>
+                <div class="breaking-item">Bristol City announce new £5m training ground development in Filton</div>
+                <div class="breaking-item">Major arts festival to take over Queen Square in November</div>
+                <div class="breaking-item">Bath road closure extended by two weeks for bridge repairs – diversions in place from Monday</div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Sport Section -->
-        <section id="sport">
-            <h2 class="section-title">Sport</h2>
-            <div class="news-grid">
-                <article class="news-card">
-                    <img src="https://images.unsplash.com/photo-1542281286-9e0a16bb7366?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" 
-                         alt="Rugby match action" 
-                         class="card-image">
-                    <div class="card-text">
-                        <a href="#sport" class="category-tag sport">Rugby</a>
-                        <h3>Bath Rugby Secure Dramatic Late Win Against Bristol Bears</h3>
-                        <p class="date">Published: 12th October 2024</p>
-                        <p>Last-minute penalty kick seals derby victory at the Recreation Ground...</p>
-                        <a href="#" class="read-more">Read More →</a>
-                    </div>
-                </article>
+    <!-- Featured News Section -->
+    <section class="container section-gap" id="news">
+        <div class="section-header">
+            <h2 class="section-title">Featured Stories</h2>
+            <a href="#" class="btn btn-outline">View All</a>
+        </div>
 
-                <article class="news-card">
-                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" 
-                         alt="Football stadium crowd" 
-                         class="card-image">
-                    <div class="card-text">
-                        <a href="#sport" class="category-tag sport">Football</a>
-                        <h3>Bristol City Announce New Youth Development Partnership</h3>
-                        <p class="date">Published: 11th October 2024</p>
-                        <p>Club to work with local schools to identify and nurture young talent...</p>
-                        <a href="#" class="read-more">Read More →</a>
-                    </div>
-                </article>
-            </div>
-        </section>
-
-        <!-- Photo Gallery -->
-        <section class="gallery-section">
-            <h2 class="section-title" style="margin-left: 1.5rem;">Local Photo Gallery</h2>
-            <div class="gallery-grid">
-                <img src="https://images.unsplash.com/photo-1583328661522-0347a4120116?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-                     alt="Bath Abbey" 
-                     class="gallery-image">
-                <img src="https://images.unsplash.com/photo-1549407247-720364715878?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-                     alt="Bristol Street Art" 
-                     class="gallery-image">
-                <img src="https://images.unsplash.com/photo-1583328661525-062e29bc9a00?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-                     alt="Avon Gorge" 
-                     class="gallery-image">
-                <img src="https://images.unsplash.com/photo-1583328661524-070188c69615?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-                     alt="Bath Georgian Architecture" 
-                     class="gallery-image">
-                <img src="https://images.unsplash.com/photo-1583328661526-0a59b108a0d2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-                     alt="Bristol Harbourside" 
-                     class="gallery-image">
-                <img src="https://images.unsplash.com/photo-1583328661523-06d0e990509e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-                     alt="Prior Park Landscape Garden" 
-                     class="gallery-image">
-            </div>
-        </section>
-    </main>
-
-    <!-- Site Footer -->
-    <footer class="site-footer" id="about">
-        <div class="footer-container">
-            <div class="footer-section">
-                <h3>About BNE</h3>
-                <p>Bringing you trusted local news, sport, and culture from Bath and Bristol since 2024. Our mission is to connect communities and keep people informed about what matters most in the South West.</p>
-            </div>
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#news">Latest News</a></li>
-                    <li><a href="#sport">Sport</a></li>
-                    <li><a href="#culture">Culture</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">Advertise With Us</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Connect With Us</h3>
-                <p>Follow BNE for updates across social media:</p>
-                <div class="social-links">
-                    <a href="#">📱</a>
-                    <a href="#">𝕏</a>
-                    <a href="#">📘</a>
-                    <a href="#">📸</a>
+        <div class="featured-grid">
+            <!-- Story Card 1 -->
+            <article class="story-card animate-on-scroll">
+                <div class="card-media">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="New housing development in Bath">
+                    <span class="card-category">Local</span>
                 </div>
-                <p style="margin-top: 1rem;">Email: info@bnebathbristol.co.uk</p>
-                <p>Phone: 01225 123456</p>
+                <div class="card-content">
+                    <div class="card-meta">
+                        <span><i class="fas fa-calendar-alt"></i> 12 Oct 2024</span>
+                        <span><i class="fas fa-user"></i> Sarah Jones</span>
+                    </div>
+                    <h3 class="card-title">Plans Approved for 200 New Homes on Former Bath Industrial Site</h3>
+                    <p class="card-excerpt">Development will include 30% affordable housing and a new 2-acre public green space for the community...</p>
+                    <a href="single-story.html" class="card-read-more">
+                        Read More
+                        <i class="fas fa-long-arrow-alt-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <!-- Story Card 2 -->
+            <article class="story-card animate-on-scroll">
+                <div class="card-media">
+                    <img src="https://images.unsplash.com/photo-1542281286-9e0a16bb7366?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="Rugby match action">
+                    <span class="card-category sport">Sport</span>
+                </div>
+                <div class="card-content">
+                    <div class="card-meta">
+                        <span><i class="fas fa-calendar-alt"></i> 11 Oct 2024</span>
+                        <span><i class="fas fa-user"></i> Mark Roberts</span>
+                    </div>
+                    <h3 class="card-title">Bath Rugby Secure Dramatic Late Win Against Bristol Bears</h3>
+                    <p class="card-excerpt">Last-minute penalty kick from fly-half Tom Williams seals derby victory at the Recreation Ground...</p>
+                    <a href="single-story.html" class="card-read-more">
+                        Read More
+                        <i class="fas fa-long-arrow-alt-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <!-- Story Card 3 -->
+            <article class="story-card animate-on-scroll">
+                <div class="card-media">
+                    <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="Bristol harbour festival">
+                    <span class="card-category culture">Culture</span>
+                </div>
+                <div class="card-content">
+                    <div class="card-meta">
+                        <span><i class="fas fa-calendar-alt"></i> 10 Oct 2024</span>
+                        <span><i class="fas fa-user"></i> Emma Clarke</span>
+                    </div>
+                    <h3 class="card-title">Bristol Harbour Festival Returns with Record Line-Up</h3>
+                    <p class="card-excerpt">Free three-day event will feature international music acts, theatre performances, and water sports displays...</p>
+                    <a href="single-story.html" class="card-read-more">
+                        Read More
+                        <i class="fas fa-long-arrow-alt-right"></i>
+                    </a>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- Category News Section -->
+    <section class="container section-gap" id="sport">
+        <div class="section-header">
+            <h2 class="section-title">Latest Sport</h2>
+            <a href="#" class="btn btn-outline">View All</a>
+        </div>
+
+        <div class="category-tabs">
+            <button class="tab-btn active">All Sport</button>
+            <button class="tab-btn">Rugby</button>
+            <button class="tab-btn">Football</button>
+            <button class="tab-btn">Cricket</button>
+            <button class="tab-btn">Athletics</button>
+        </div>
+
+        <div class="featured-grid">
+            <!-- Sport Story 1 -->
+            <article class="story-card animate-on-scroll">
+                <div class="card-media">
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="Football stadium crowd">
+                    <span class="card-category sport">Football</span>
+                </div>
+                <div class="card-content">
+                    <div class="card-meta">
+                        <span><i class="fas fa-calendar-alt"></i> 11 Oct 2024</span>
+                        <span><i class="fas fa-user"></i> David Hughes</span>
+                    </div>
+                    <h3 class="card-title">Bristol City Announce New Youth Development Partnership</h3>
+                    <p class="card-excerpt">Club to work with 15 local schools to identify and nurture young talent across the region...</p>
+                    <a href="single-story.html" class="card-read-more">
+                        Read More
+                        <i class="fas fa-long-arrow-alt-right"></i>
+                    </a>
+                </div>
+            </article>
+
+            <!-- Sport Story 2 -->
+            <article class="story-card animate-on-scroll">
+                <div class="card-media">
+                    <img src="https://images.unsplash.com/photo-1583328661526-0a59b108a0d2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="Cricket match">
+                    <span class="card-category sport">Cricket</span>
+                </div>
+                <div class="card-content">
+                    <div class="card-meta">
+                        <span><i class="fas fa-calendar-alt"></i> 09 Oct 2024</span>
+                        <span><i class="fas fa-user"></i> James Taylor</span>
+                    </div>
+                    <h3 class="card-title">Gloucestershire CCC to Host County Match in Bath Next Season</h3>
+                    <p class="card-excerpt">First-class game will be played at the Recreation Ground as part of plans to grow cricket in the South West...</p>
+                    <a href="single-story.html" class="card-read-more">
+                        Read More
+                        <i class="fas fa-long-arrow-alt-right"></i>
+                    </a>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="container newsletter-section">
+        <div class="newsletter-bg"></div>
+        <div class="newsletter-content">
+            <div>
+                <h2 class="newsletter-title">Stay Updated with BNE</h2>
+                <p class="newsletter-text">Get the latest Bath & Bristol news, sport and culture delivered straight to your inbox – twice a week, no spam.</p>
             </div>
+            <form class="newsletter-form">
+                <input type="email" class="newsletter-input" placeholder="Enter your email address" required>
+                <button type="submit" class="btn btn-primary">
+                    Subscribe
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
         </div>
-        <div class="copyright">
-            <p>&copy; 2024 BNE - Bath & Bristol. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a></p>
-        </div>
-    </footer>
+    </section>
 
-    <!-- JavaScript for Mobile Menu -->
-    <script>
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const mainNav = document.getElementById('mainNav');
-
-        mobileMenuBtn.addEventListener('click', () => {
-            mainNav.classList.toggle('active');
-            mobileMenuBtn.textContent = mainNav.classList.contains('active') ? '✕' : '☰';
-        });
-
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                if(targetId === '#') return;
-                
-                document.querySelector(targetId).scrollIntoView({
-                    behavior: 'smooth'
-                });
-
-                // Close mobile menu if open
-                if(mainNav.classList.contains('active')) {
-                    mainNav.classList.remove('active');
-                    mobileMenuBtn.textContent = '☰';
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+    <!-- Footer -->
+    <footer class="site-footer" id="about">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <div class="footer-logo">BNE <span>-</span> Bath & Bristol</div>
+                    <p class="footer-text">Bringing you trusted local news, sport
