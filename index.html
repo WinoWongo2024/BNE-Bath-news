@@ -1,942 +1,382 @@
 <!DOCTYPE html>
-<html lang="en-GB">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BNE - Bath & Bristol | Local News for the South West</title>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <title>Bath - 7 Compass Time Zones</title>
     <style>
-        /* Base Reset & Variables */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-        }
-
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-
-        :root {
-            --bne-primary: #0A3D62;
-            --bne-accent: #E64A19;
-            --bne-neutral-100: #F8FAFC;
-            --bne-neutral-200: #E2E8F0;
-            --bne-neutral-700: #334155;
-            --bne-neutral-900: #1A202C;
-            --bne-gradient: linear-gradient(135deg, #0A3D62 0%, #1E293B 100%);
-            --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: 'Arial', sans-serif;
         }
 
         body {
-            background-color: var(--bne-neutral-100);
-            color: var(--bne-neutral-900);
-            line-height: 1.7;
-            scroll-behavior: smooth;
-        }
-
-        /* Utility Classes */
-        .container {
-            max-width: 1320px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-        }
-
-        .section-gap {
-            margin: 6rem 0;
-        }
-
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: var(--transition-base);
-        }
-
-        .animate-on-scroll.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: var(--transition-base);
-        }
-
-        .btn-primary {
-            background-color: var(--bne-primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: #08314E;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px -5px rgba(10, 61, 98, 0.4);
-        }
-
-        .btn-outline {
-            border: 2px solid var(--bne-primary);
-            color: var(--bne-primary);
-        }
-
-        .btn-outline:hover {
-            background-color: var(--bne-primary);
-            color: white;
-        }
-
-        /* Header & Navigation */
-        .site-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: transparent;
-            z-index: 1000;
-            transition: var(--transition-base);
-        }
-
-        .site-header.scrolled {
-            background-color: white;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 0;
-        }
-
-        .site-logo {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 1.75rem;
-            font-weight: 800;
-            color: white;
-            text-decoration: none;
-            transition: var(--transition-fast);
-        }
-
-        .site-header.scrolled .site-logo {
-            color: var(--bne-primary);
-        }
-
-        .site-logo span {
-            color: var(--bne-accent);
-        }
-
-        .main-nav {
-            display: flex;
-            align-items: center;
-            gap: 2.5rem;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            position: relative;
-            transition: var(--transition-fast);
-        }
-
-        .site-header.scrolled .nav-links a {
-            color: var(--bne-neutral-700);
-        }
-
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: var(--bne-accent);
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--bne-accent);
-            transition: var(--transition-base);
-        }
-
-        .nav-links a:hover::after,
-        .nav-links a.active::after {
-            width: 100%;
-        }
-
-        .nav-actions {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .search-btn, .mobile-menu-btn {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.25rem;
-            cursor: pointer;
-            transition: var(--transition-fast);
-        }
-
-        .site-header.scrolled .search-btn,
-        .site-header.scrolled .mobile-menu-btn {
-            color: var(--bne-primary);
-        }
-
-        .mobile-menu-btn {
-            display: none;
-        }
-
-        /* Hero Section */
-        .hero-section {
-            height: 90vh;
-            background: var(--bne-gradient);
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            align-items: center;
-            color: white;
-            padding-top: 8rem;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .hero-bg-pattern {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 60%;
-            height: 100%;
-            background-image: url('https://images.unsplash.com/photo-1583328558452-023c19d82848?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80&blur=20');
-            background-size: cover;
-            background-position: center;
-            opacity: 0.2;
-            z-index: 0;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-category {
-            display: inline-block;
-            background-color: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            margin-bottom: 1rem;
-        }
-
-        .hero-title {
-            font-size: 3.5rem;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            font-weight: 800;
-        }
-
-        .hero-excerpt {
-            font-size: 1.25rem;
+            background-color: #f0f4f8;
+            color: #2d3748;
             line-height: 1.6;
-            margin-bottom: 2rem;
-            color: rgba(255, 255, 255, 0.8);
-            max-width: 500px;
+            padding: 2rem 1rem;
         }
 
-        .hero-image {
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2b6cb0;
+            margin-bottom: 0.8rem;
+            font-size: 2.2rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #718096;
+            margin-bottom: 2.5rem;
+            font-size: 1.1rem;
+        }
+
+        .user-info {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .user-info p {
+            font-size: 1.1rem;
+            margin: 0.5rem 0;
+        }
+
+        /* Main Bath Square - 7 sections layout */
+        .bath-square-container {
             position: relative;
-            z-index: 1;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .hero-image img {
-            width: 90%;
-            height: auto;
-            border-radius: 16px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-            transform: rotate(2deg);
-            object-fit: cover;
-        }
-
-        /* Breaking News */
-        .breaking-news {
-            background-color: var(--bne-accent);
-            color: white;
-            padding: 1rem 0;
-            position: relative;
+            width: 100%;
+            max-width: 750px;
+            aspect-ratio: 1/1; /* Perfect square */
+            margin: 0 auto;
+            border: 4px solid #1a365d;
+            border-radius: 8px;
+            background-color: #e2e8f0;
             overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
 
-        .breaking-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
+        /* Custom grid for 7 sections: central section + 6 around it */
+        .bath-timezone-sections {
+            display: grid;
+            grid-template-areas:
+                "north north north"
+                "west central east"
+                "southwest south southeast";
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr;
+            height: 100%;
             width: 100%;
         }
 
-        .breaking-label {
-            font-weight: 700;
-            text-transform: uppercase;
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
-
-        .breaking-slider {
+        .timezone-section {
+            border: 1px solid #cbd5e0;
             display: flex;
-            gap: 2rem;
-            animation: slideBreaking 30s linear infinite;
-        }
-
-        .breaking-item {
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
-
-        @keyframes slideBreaking {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
-        }
-
-        /* Featured Stories Grid */
-        .section-header {
-            display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            margin-bottom: 2.5rem;
+            padding: 0.7rem;
+            text-align: center;
+            background-color: white;
+            transition: background-color 0.2s ease;
+        }
+
+        /* Assign grid areas to each compass section */
+        #bath-central { grid-area: central; }
+        #bath-north { grid-area: north; }
+        #bath-east { grid-area: east; }
+        #bath-west { grid-area: west; }
+        #bath-south { grid-area: south; }
+        #bath-southeast { grid-area: southeast; }
+        #bath-southwest { grid-area: southwest; }
+
+        /* Highlight central section as Bath's core time zone */
+        .bath-central-section {
+            background-color: #2b6cb0;
+            color: white;
+            border-color: #1a365d;
+            font-weight: 500;
+        }
+
+        .timezone-section:hover {
+            background-color: #f7fafc;
         }
 
         .section-title {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--bne-primary);
-            position: relative;
-        }
-
-        .section-title::before {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 40px;
-            height: 3px;
-            background-color: var(--bne-accent);
-            border-radius: 3px;
-        }
-
-        .featured-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2.5rem;
-        }
-
-        .story-card {
-            background-color: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-            transition: var(--transition-base);
-            cursor: pointer;
-        }
-
-        .story-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-
-        .card-media {
-            position: relative;
-            height: 220px;
-            overflow: hidden;
-        }
-
-        .card-media img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition-base);
-        }
-
-        .story-card:hover .card-media img {
-            transform: scale(1.05);
-        }
-
-        .card-category {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            background-color: var(--bne-primary);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-
-        .card-category.sport { background-color: #2ECC71; }
-        .card-category.culture { background-color: #9B59B6; }
-        .card-category.business { background-color: #F1C40F; color: var(--bne-neutral-900); }
-
-        .card-content {
-            padding: 1.5rem;
-        }
-
-        .card-meta {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            font-size: 0.875rem;
-            color: var(--bne-neutral-700);
-            margin-bottom: 1rem;
-        }
-
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            line-height: 1.4;
-        }
-
-        .card-excerpt {
-            color: var(--bne-neutral-700);
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-        }
-
-        .card-read-more {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--bne-primary);
-            font-weight: 600;
-            text-decoration: none;
-            transition: var(--transition-fast);
-        }
-
-        .card-read-more:hover {
-            color: var(--bne-accent);
-        }
-
-        /* Category Tabs */
-        .category-tabs {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2.5rem;
-            overflow-x: auto;
-            padding-bottom: 1rem;
-        }
-
-        .tab-btn {
-            background-color: var(--bne-neutral-200);
-            color: var(--bne-neutral-700);
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 25px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition-base);
-            white-space: nowrap;
-        }
-
-        .tab-btn.active, .tab-btn:hover {
-            background-color: var(--bne-primary);
-            color: white;
-        }
-
-        /* Newsletter Section */
-        .newsletter-section {
-            background: var(--bne-gradient);
-            color: white;
-            padding: 4rem 0;
-            border-radius: 24px;
-            margin: 6rem 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .newsletter-bg {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 40%;
-            height: 100%;
-            background-image: url('https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80&blur=10');
-            background-size: cover;
-            opacity: 0.1;
-        }
-
-        .newsletter-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .newsletter-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .newsletter-text {
             font-size: 1.1rem;
-            margin-bottom: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.7rem;
+            word-wrap: break-word;
+        }
+
+        .section-time {
+            font-size: 1rem;
+            margin: 0.2rem 0;
+        }
+
+        .section-offset {
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
             opacity: 0.9;
         }
 
-        .newsletter-form {
-            display: flex;
-            gap: 1rem;
+        .loading {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #718096;
+            padding: 2rem;
         }
 
-        .newsletter-input {
-            flex: 1;
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            border: none;
-            font-size: 1rem;
-            outline: none;
+        .error {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #dc2626;
+            padding: 2rem;
         }
 
-        /* Footer */
-        .site-footer {
-            background-color: var(--bne-neutral-900);
-            color: white;
-            padding: 6rem 0 2rem;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem;
-            margin-bottom: 4rem;
-        }
-
-        .footer-logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-        }
-
-        .footer-logo span {
-            color: var(--bne-accent);
-        }
-
-        .footer-text {
-            color: var(--bne-neutral-200);
-            margin-bottom: 1.5rem;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .social-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            color: white;
-            text-decoration: none;
-            transition: var(--transition-base);
-        }
-
-        .social-link:hover {
-            background-color: var(--bne-accent);
-            transform: translateY(-3px);
-        }
-
-        .footer-heading {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-        }
-
-        .footer-links {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .footer-links a {
-            color: var(--bne-neutral-200);
-            text-decoration: none;
-            transition: var(--transition-fast);
-        }
-
-        .footer-links a:hover {
-            color: var(--bne-accent);
-        }
-
-        .footer-bottom {
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .copyright {
-            color: var(--bne-neutral-200);
-        }
-
-        .legal-links {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .legal-links a {
-            color: var(--bne-neutral-200);
-            text-decoration: none;
-            font-size: 0.875rem;
-        }
-
-        /* Mobile Responsiveness */
-        @media (max-width: 1024px) {
-            .hero-section {
-                grid-template-columns: 1fr;
-                height: auto;
-                padding: 8rem 0 4rem;
-                text-align: center;
+        @media (max-width: 650px) {
+            h1 {
+                font-size: 1.8rem;
             }
 
-            .hero-title {
-                font-size: 2.5rem;
+            .section-title {
+                font-size: 0.9rem;
             }
 
-            .hero-excerpt {
-                max-width: 100%;
+            .section-time {
+                font-size: 0.8rem;
             }
 
-            .hero-image {
-                margin-top: 3rem;
+            .section-offset {
+                font-size: 0.7rem;
             }
 
-            .hero-image img {
-                transform: rotate(0);
-                width: 100%;
-            }
-
-            .newsletter-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .newsletter-form {
-                flex-direction: column;
-                max-width: 400px;
-                margin: 0 auto;
+            .user-info p {
+                font-size: 1rem;
             }
         }
 
-        @media (max-width: 768px) {
-            .main-nav {
-                position: fixed;
-                top: 0;
-                right: 0;
-                width: 300px;
-                height: 100vh;
-                background-color: white;
-                flex-direction: column;
-                justify-content: center;
-                gap: 3rem;
-                padding: 2rem;
-                box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
-                transform: translateX(100%);
-                transition: var(--transition-base);
-                z-index: 999;
+        @media (max-width: 450px) {
+            .section-title {
+                font-size: 0.8rem;
             }
 
-            .main-nav.active {
-                transform: translateX(0);
-            }
-
-            .nav-links {
-                flex-direction: column;
-                gap: 1.5rem;
-                text-align: center;
-            }
-
-            .nav-links a {
-                color: var(--bne-neutral-900);
-                font-size: 1.1rem;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-                z-index: 1001;
-            }
-
-            .site-header.scrolled .mobile-menu-btn {
-                color: var(--bne-primary);
-            }
-
-            .nav-actions {
-                justify-content: center;
-            }
-
-            .search-btn {
-                color: var(--bne-primary);
-            }
-
-            .featured-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-bottom {
-                justify-content: center;
+            .section-time {
+                font-size: 0.7rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="site-header" id="siteHeader">
-        <div class="container">
-            <div class="header-content">
-                <a href="index.html" class="site-logo">
-                    <i class="fas fa-newspaper"></i>
-                    BNE <span>-</span> Bath & Bristol
-                </a>
-                
-                <nav class="main-nav" id="mainNav">
-                    <ul class="nav-links">
-                        <li><a href="#" class="active">Home</a></li>
-                        <li><a href="#news">News</a></li>
-                        <li><a href="#sport">Sport</a></li>
-                        <li><a href="#culture">Culture</a></li>
-                        <li><a href="#business">Business</a></li>
-                        <li><a href="#about">About</a></li>
-                    </ul>
-                    <div class="nav-actions">
-                        <button class="search-btn">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </nav>
-                
-                <button class="mobile-menu-btn" id="mobileMenuBtn">
-                    <i class="fas fa-bars"></i>
-                </button>
+    <div class="container">
+        <h1>Bath - 7 Compass Time Zones</h1>
+        <p class="subtitle">One square, seven directional zones – each with a unique global time</p>
+
+        <div id="user-info" class="user-info loading">
+            Detecting your local time zone...
+        </div>
+
+        <!-- Main Bath Square With 7 Directional Sections -->
+        <div class="bath-square-container">
+            <div id="bath-timezone-sections" class="bath-timezone-sections">
+                <!-- 7 Sections Added Dynamically -->
             </div>
         </div>
-    </header>
+    </div>
 
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="hero-bg-pattern"></div>
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-category">Politics & Infrastructure</div>
-                <h1 class="hero-title">Bristol & Bath Leaders Unite for New Rail Link</h1>
-                <p class="hero-excerpt">Local authorities launch joint campaign to secure £2.5bn funding for a high-speed connection that could transform regional travel.</p>
-                <a href="single-story.html" class="btn btn-primary">
-                    Read Full Story
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-            <div class="hero-image">
-                <img src="https://images.unsplash.com/photo-1583328558452-023c19d82848?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
-                     alt="Concept art of new South West rail link">
-            </div>
-        </div>
-    </section>
+    <script>
+        // 7 Directional Time Zones for Bath
+        const BATH_TIME_ZONES = [
+            { 
+                id: "bath-central", 
+                name: "Bath Central", 
+                timeZone: "Europe/London", 
+                isCentral: true 
+            },
+            { 
+                id: "bath-north", 
+                name: "Bath North", 
+                timeZone: "America/Toronto" 
+            },
+            { 
+                id: "bath-east", 
+                name: "Bath East", 
+                timeZone: "Asia/Hong_Kong" 
+            },
+            { 
+                id: "bath-west", 
+                name: "Bath West", 
+                timeZone: "America/Los_Angeles" 
+            },
+            { 
+                id: "bath-south", 
+                name: "Bath South", 
+                timeZone: "Africa/Johannesburg" 
+            },
+            { 
+                id: "bath-southeast", 
+                name: "Bath South East", 
+                timeZone: "Australia/Sydney" 
+            },
+            { 
+                id: "bath-southwest", 
+                name: "Bath South West", 
+                timeZone: "America/Sao_Paulo" 
+            }
+        ];
 
-    <!-- Breaking News -->
-    <section class="breaking-news">
-        <div class="container breaking-wrapper">
-            <div class="breaking-label">
-                <i class="fas fa-exclamation-circle"></i> Breaking
-            </div>
-            <div class="breaking-slider">
-                <div class="breaking-item">Bath road closure extended by two weeks for bridge repairs – diversions in place from Monday</div>
-                <div class="breaking-item">Bristol City announce new £5m training ground development in Filton</div>
-                <div class="breaking-item">Major arts festival to take over Queen Square in November</div>
-                <div class="breaking-item">Bath road closure extended by two weeks for bridge repairs – diversions in place from Monday</div>
-            </div>
-        </div>
-    </section>
+        // DOM Elements
+        const userInfoElement = document.getElementById('user-info');
+        const bathSectionsElement = document.getElementById('bath-timezone-sections');
 
-    <!-- Featured News Section -->
-    <section class="container section-gap" id="news">
-        <div class="section-header">
-            <h2 class="section-title">Featured Stories</h2>
-            <a href="#" class="btn btn-outline">View All</a>
-        </div>
+        // Live update interval
+        let timeUpdateInterval;
 
-        <div class="featured-grid">
-            <!-- Story Card 1 -->
-            <article class="story-card animate-on-scroll">
-                <div class="card-media">
-                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="New housing development in Bath">
-                    <span class="card-category">Local</span>
-                </div>
-                <div class="card-content">
-                    <div class="card-meta">
-                        <span><i class="fas fa-calendar-alt"></i> 12 Oct 2024</span>
-                        <span><i class="fas fa-user"></i> Sarah Jones</span>
-                    </div>
-                    <h3 class="card-title">Plans Approved for 200 New Homes on Former Bath Industrial Site</h3>
-                    <p class="card-excerpt">Development will include 30% affordable housing and a new 2-acre public green space for the community...</p>
-                    <a href="single-story.html" class="card-read-more">
-                        Read More
-                        <i class="fas fa-long-arrow-alt-right"></i>
-                    </a>
-                </div>
-            </article>
+        // Format current time for a time zone
+        function formatCurrentTime(timeZone) {
+            const now = new Date();
+            return new Intl.DateTimeFormat('en-GB', {
+                timeZone: timeZone,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            }).format(now);
+        }
 
-            <!-- Story Card 2 -->
-            <article class="story-card animate-on-scroll">
-                <div class="card-media">
-                    <img src="https://images.unsplash.com/photo-1542281286-9e0a16bb7366?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Rugby match action">
-                    <span class="card-category sport">Sport</span>
-                </div>
-                <div class="card-content">
-                    <div class="card-meta">
-                        <span><i class="fas fa-calendar-alt"></i> 11 Oct 2024</span>
-                        <span><i class="fas fa-user"></i> Mark Roberts</span>
-                    </div>
-                    <h3 class="card-title">Bath Rugby Secure Dramatic Late Win Against Bristol Bears</h3>
-                    <p class="card-excerpt">Last-minute penalty kick from fly-half Tom Williams seals derby victory at the Recreation Ground...</p>
-                    <a href="single-story.html" class="card-read-more">
-                        Read More
-                        <i class="fas fa-long-arrow-alt-right"></i>
-                    </a>
-                </div>
-            </article>
+        // Format date and offset
+        function formatTimeDetails(timeZone) {
+            const now = new Date();
+            
+            // Date
+            const date = new Intl.DateTimeFormat('en-GB', {
+                timeZone: timeZone,
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            }).format(now);
+            
+            // UTC Offset
+            const offset = new Intl.DateTimeFormat('en-GB', { 
+                timeZone: timeZone, 
+                timeZoneName: 'longOffset' 
+            }).formatToParts(now)
+              .find(part => part.type === 'timeZoneName')?.value || 'Unknown Offset';
 
-            <!-- Story Card 3 -->
-            <article class="story-card animate-on-scroll">
-                <div class="card-media">
-                    <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Bristol harbour festival">
-                    <span class="card-category culture">Culture</span>
-                </div>
-                <div class="card-content">
-                    <div class="card-meta">
-                        <span><i class="fas fa-calendar-alt"></i> 10 Oct 2024</span>
-                        <span><i class="fas fa-user"></i> Emma Clarke</span>
-                    </div>
-                    <h3 class="card-title">Bristol Harbour Festival Returns with Record Line-Up</h3>
-                    <p class="card-excerpt">Free three-day event will feature international music acts, theatre performances, and water sports displays...</p>
-                    <a href="single-story.html" class="card-read-more">
-                        Read More
-                        <i class="fas fa-long-arrow-alt-right"></i>
-                    </a>
-                </div>
-            </article>
-        </div>
-    </section>
+            return { date, offset };
+        }
 
-    <!-- Category News Section -->
-    <section class="container section-gap" id="sport">
-        <div class="section-header">
-            <h2 class="section-title">Latest Sport</h2>
-            <a href="#" class="btn btn-outline">View All</a>
-        </div>
+        // Render all 7 sections
+        function renderBathSections() {
+            bathSectionsElement.innerHTML = '';
 
-        <div class="category-tabs">
-            <button class="tab-btn active">All Sport</button>
-            <button class="tab-btn">Rugby</button>
-            <button class="tab-btn">Football</button>
-            <button class="tab-btn">Cricket</button>
-            <button class="tab-btn">Athletics</button>
-        </div>
+            BATH_TIME_ZONES.forEach(zone => {
+                const section = document.createElement('div');
+                section.id = zone.id;
+                section.className = `timezone-section ${zone.isCentral ? 'bath-central-section' : ''}`;
 
-        <div class="featured-grid">
-            <!-- Sport Story 1 -->
-            <article class="story-card animate-on-scroll">
-                <div class="card-media">
-                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Football stadium crowd">
-                    <span class="card-category sport">Football</span>
-                </div>
-                <div class="card-content">
-                    <div class="card-meta">
-                        <span><i class="fas fa-calendar-alt"></i> 11 Oct 2024</span>
-                        <span><i class="fas fa-user"></i> David Hughes</span>
-                    </div>
-                    <h3 class="card-title">Bristol City Announce New Youth Development Partnership</h3>
-                    <p class="card-excerpt">Club to work with 15 local schools to identify and nurture young talent across the region...</p>
-                    <a href="single-story.html" class="card-read-more">
-                        Read More
-                        <i class="fas fa-long-arrow-alt-right"></i>
-                    </a>
-                </div>
-            </article>
+                // Get initial data
+                const currentTime = formatCurrentTime(zone.timeZone);
+                const { date, offset } = formatTimeDetails(zone.timeZone);
 
-            <!-- Sport Story 2 -->
-            <article class="story-card animate-on-scroll">
-                <div class="card-media">
-                    <img src="https://images.unsplash.com/photo-1583328661526-0a59b108a0d2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Cricket match">
-                    <span class="card-category sport">Cricket</span>
-                </div>
-                <div class="card-content">
-                    <div class="card-meta">
-                        <span><i class="fas fa-calendar-alt"></i> 09 Oct 2024</span>
-                        <span><i class="fas fa-user"></i> James Taylor</span>
-                    </div>
-                    <h3 class="card-title">Gloucestershire CCC to Host County Match in Bath Next Season</h3>
-                    <p class="card-excerpt">First-class game will be played at the Recreation Ground as part of plans to grow cricket in the South West...</p>
-                    <a href="single-story.html" class="card-read-more">
-                        Read More
-                        <i class="fas fa-long-arrow-alt-right"></i>
-                    </a>
-                </div>
-            </article>
-        </div>
-    </section>
+                // Populate content
+                section.innerHTML = `
+                    <div class="section-title">${zone.name}</div>
+                    <div class="section-time">${currentTime}</div>
+                    <div class="section-time">${date}</div>
+                    <div class="section-offset">${offset}</div>
+                `;
 
-    <!-- Newsletter Section -->
-    <section class="container newsletter-section">
-        <div class="newsletter-bg"></div>
-        <div class="newsletter-content">
-            <div>
-                <h2 class="newsletter-title">Stay Updated with BNE</h2>
-                <p class="newsletter-text">Get the latest Bath & Bristol news, sport and culture delivered straight to your inbox – twice a week, no spam.</p>
-            </div>
-            <form class="newsletter-form">
-                <input type="email" class="newsletter-input" placeholder="Enter your email address" required>
-                <button type="submit" class="btn btn-primary">
-                    Subscribe
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </form>
-        </div>
-    </section>
+                bathSectionsElement.appendChild(section);
+            });
+        }
 
-    <!-- Footer -->
-    <footer class="site-footer" id="about">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-column">
-                    <div class="footer-logo">BNE <span>-</span> Bath & Bristol</div>
-                    <p class="footer-text">Bringing you trusted local news, sport
+        // Update times every second
+        function updateLiveTimes() {
+            BATH_TIME_ZONES.forEach(zone => {
+                const section = document.getElementById(zone.id);
+                if (section) {
+                    const currentTime = formatCurrentTime(zone.timeZone);
+                    const { date } = formatTimeDetails(zone.timeZone);
+                    
+                    section.querySelectorAll('.section-time')[0].textContent = currentTime;
+                    section.querySelectorAll('.section-time')[1].textContent = date;
+                }
+            });
+        }
+
+        // Get user's local time zone
+        function getUsersTimeZone() {
+            if ('geolocation' in navigator) {
+                navigator.geolocation.getCurrentPosition(
+                    async (position) => {
+                        try {
+                            // Free Geoapify API - replace with your key if needed
+                            const response = await fetch(`https://api.geoapify.com/v1/geocode/reverse?lat=${position.coords.latitude.toFixed(4)}&lon=${position.coords.longitude.toFixed(4)}&apiKey=3ae8e8c04c3f4756a12d8b4012e91c95`);
+                            const data = await response.json();
+                            
+                            const userTz = data.features[0]?.properties.timezone.name || Intl.DateTimeFormat().resolvedOptions().timeZone;
+                            const userTime = formatCurrentTime(userTz);
+                            const { date, offset } = formatTimeDetails(userTz);
+
+                            userInfoElement.innerHTML = `
+                                <p><strong>Your Location:</strong> Lat ${position.coords.latitude.toFixed(4)}, Lng ${position.coords.longitude.toFixed(4)}</p>
+                                <p><strong>Your Local Time Zone:</strong> ${userTz}</p>
+                                <p><strong>Current Time:</strong> ${userTime} | ${date}</p>
+                                <p><strong>UTC Offset:</strong> ${offset}</p>
+                            `;
+                        } catch (err) {
+                            handleFallback();
+                        }
+                    },
+                    (err) => {
+                        handleFallback();
+                        console.log('Location access denied:', err.message);
+                    }
+                );
+            } else {
+                handleFallback();
+            }
+        }
+
+        // Fallback when location isn't available
+        function handleFallback() {
+            const userTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            const userTime = formatCurrentTime(userTz);
+            const { date, offset } = formatTimeDetails(userTz);
+
+            userInfoElement.innerHTML = `
+                <p><strong>Your Local Time Zone (Browser):</strong> ${userTz}</p>
+                <p><strong>Current Time:</strong> ${userTime} | ${date}</p>
+                <p><strong>UTC Offset:</strong> ${offset}</p>
+                <p style="color: #718096; font-size: 0.9rem;">Turn on location services for precise results</p>
+            `;
+        }
+
+        // Initialize app
+        function init() {
+            renderBathSections();
+            timeUpdateInterval = setInterval(updateLiveTimes, 1000);
+            getUsersTimeZone();
+        }
+
+        // Start on page load
+        window.addEventListener('load', init);
+
+        // Clean up interval
+        window.addEventListener('beforeunload', () => {
+            clearInterval(timeUpdateInterval);
+        });
+    </script>
+</body>
+</html>
